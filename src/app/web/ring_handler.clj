@@ -1,4 +1,4 @@
-(ns ajeer.web.ring-handler
+(ns app.web.ring-handler
   (:require [reitit.ring :as ring]
             [reitit.ring.coercion :as coercion]
             [reitit.coercion.malli]
@@ -8,7 +8,7 @@
             [reitit.ring.middleware.exception]
             [malli.util :as mu]
             [muuntaja.core :as muuntaja]
-            [ajeer.web.routes :refer [routes]]))
+            [app.web.routes :refer [routes]]))
 
 (defn default-error-handler
   "Default safe handler for any exception."

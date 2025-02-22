@@ -1,11 +1,11 @@
-(ns ajeer.core
+(ns app.core
   (:require [aero.core :as aero]
             [datomic.api :as d]
             [integrant.core :as ig]
             [org.httpkit.server :refer [run-server]]
             [clojure.java.io :as io]
             [clojure.tools.logging :as log]
-            [ajeer.web.ring-handler :refer [ring-handler]]))
+            [app.web.ring-handler :refer [ring-handler]]))
 
 (defmethod aero/reader 'ig/ref
   [_opts _tag value]
