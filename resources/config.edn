@@ -1,0 +1,8 @@
+{:web/server {:port   #long #or [#env "HTTP_PORT" 8000]
+              :handler #ig/ref :web/handler}
+ :web/handler {:db #ig/ref :db/primary
+               :dev? true}
+ :db/primary {:port     #long #or [#env DB_PORT 4334]
+              :protocol #or [#env DB_PROTOCOL "datomic:dev"]
+              :name     #or [#env DB_NAME "real-business"]
+              :domain   #or [#env DB_DOMAIN "localhost"]}}

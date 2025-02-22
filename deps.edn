@@ -1,0 +1,33 @@
+{:paths ["src" "resources" "dev"]
+ :deps  {org.clojure/clojure             {:mvn/version "1.12.0"}
+         org.clojure/tools.logging       {:mvn/version "1.3.0"}
+         org.clojure/core.cache          {:mvn/version "1.0.225"}
+         org.slf4j/jul-to-slf4j {:mvn/version "2.0.16"}
+         org.slf4j/jcl-over-slf4j {:mvn/version "2.0.16"}
+         aero/aero                       {:mvn/version "1.1.6"}
+         integrant/integrant             {:mvn/version "0.8.1"}
+         integrant/repl                  {:mvn/version "0.3.3"}
+         http-kit/http-kit               {:mvn/version "2.8.0-alpha2"}
+         ring/ring                       {:mvn/version "1.9.0"}
+         cheshire/cheshire               {:mvn/version "5.11.0"}
+         metosin/reitit                  {:mvn/version "0.6.0"}
+         metosin/malli                   {:mvn/version "0.16.0"}
+         metosin/muuntaja                {:mvn/version "0.6.8"}
+         metosin/ring-http-response      {:mvn/version "0.9.4"}
+         com.taoensso/carmine            {:mvn/version "3.3.2"}
+         com.datomic/peer                {:mvn/version "1.0.6735"}
+         buddy/buddy-hashers             {:mvn/version "2.0.167"}
+         buddy/buddy-sign                {:mvn/version "3.5.351"}
+         tick/tick                       {:mvn/version "0.7.5"}
+         criterium/criterium             {:mvn/version "0.4.6"}
+         email-validator/email-validator {:mvn/version "0.1"}
+         hiccup/hiccup                   {:mvn/version "2.0.0-RC4"}
+         datastar/sdk                    {:git/url   "https://github.com/starfederation/datastar"
+                                          :git/sha   "854ce6ed304d85cd9164ed44b808014f62ec821c"
+                                          :deps/root "sdk/clojure/sdk"}
+         datastar/ring-http-kit          {:git/url   "https://github.com/starfederation/datastar"
+                                          :git/sha   "854ce6ed304d85cd9164ed44b808014f62ec821c"
+                                          :deps/root "sdk/clojure/adapter-http-kit"}
+         datastar/malli-schemas          {:git/url   "https://github.com/starfederation/datastar"
+                                          :git/sha   "854ce6ed304d85cd9164ed44b808014f62ec821c"
+                                          :deps/root "sdk/clojure/malli-schemas"} }}
