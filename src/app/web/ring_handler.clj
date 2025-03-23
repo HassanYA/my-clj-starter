@@ -3,12 +3,15 @@
             [reitit.ring.coercion :as coercion]
             [reitit.coercion.malli]
             [reitit.ring.malli]
-            ;; [reitit.ring.middleware.parameters :refer [parameters-middleware]]
             [reitit.ring.middleware.muuntaja :refer [format-middleware]]
             [reitit.ring.middleware.exception]
+            [ring.middleware.session :refer [wrap-session]]
             [malli.util :as mu]
             [muuntaja.core :as muuntaja]
-            [app.web.routes :refer [routes]]))
+            [app.web.routes :refer [routes]]
+            [app.web.middlewares :refer [wrap-database-middleware
+                                         wrap-scookie]]))
+
 
 (defn default-error-handler
   "Default safe handler for any exception."
@@ -18,34 +21,27 @@
    :body {:type "exception"
           :class (.getName (.getClass e))}})
 
-(defn wrap-database-middleware
-  "Return a middleware that associates our database instance to the request map."
-  [handler database]
-  (fn
-    ([request]
-     (handler (assoc request :conn (:conn database))))
-    ([request respond raise]
-     (handler (assoc request :conn (:conn database))
-              respond
-              raise))))
-
 (defn- make-ring-handler
-  [{:keys [dev? db]}]
+  [{:keys [db cookie]}]
   (ring/ring-handler
    (ring/router
-    [(routes)]
+    [(routes)
+     ["/assets/*" (ring/create-resource-handler)]]
     {:data {:coercion (reitit.coercion.malli/create
                        {:error-keys #{:coercion :in :schema :value :errors :humanized}
                         :compile mu/closed-schema
                         :strip-extra-keys true
                         :default-values true})
             :muuntaja muuntaja/instance
-            :middleware  [format-middleware
+            :middleware  [[wrap-session cookie]
+                          [wrap-scookie cookie]
+                          format-middleware
                           (reitit.ring.middleware.exception/create-exception-middleware {:reitit.ring.middleware.exception/default default-error-handler})
                           coercion/coerce-exceptions-middleware
                           coercion/coerce-request-middleware
                           coercion/coerce-response-middleware
-                          [wrap-database-middleware db]]}})))
+                          [wrap-database-middleware db]]}})
+   (ring/create-default-handler)))
 
 (defn ring-handler
   [{:keys [dev?] :as opts}]
