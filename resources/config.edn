@@ -2,7 +2,12 @@
               :handler #ig/ref :web/handler}
  :web/handler {:db #ig/ref :db/primary
                :dev? true}
- :db/primary {:port     #long #or [#env DB_PORT 4334]
-              :protocol #or [#env DB_PROTOCOL "datomic:dev"]
-              :name     #or [#env DB_NAME "real-business"]
-              :domain   #or [#env DB_DOMAIN "localhost"]}}
+ ;;  :db/primary {:port     #long #or [#env DB_PORT 4334]
+ ;;               :protocol #or [#env DB_PROTOCOL "datomic:dev"]
+ ;;               :name     #or [#env DB_NAME "test"]
+ ;;               :domain   #or [#env DB_DOMAIN "localhost"]}
+ :db/primary {:port #long #or [#env DB_PORT 5432]
+              :dbtype #or [#env DB_TYPE "postgres"]
+              :dbname  #or [#env DB_NAME "clj-starter"]
+              :user #or [#env DB_USER "postgres"]
+              :password #or [#env DB_PASSWORD "hasan"]}}

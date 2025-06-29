@@ -1,0 +1,8 @@
+{:up ["CREATE TABLE sharks (
+	scientific_name varchar NOT NULL,
+	known_name varchar NOT NULL,
+	strength integer NOT NULL,
+	created_at timestamp NOT NULL,
+	code varchar NOT NULL,
+	CONSTRAINT sharks_pk PRIMARY KEY (code));"]
+ :down ["DROP TABLE sharks;"]}

@@ -5,12 +5,10 @@
             [reitit.ring.malli]
             [reitit.ring.middleware.muuntaja :refer [format-middleware]]
             [reitit.ring.middleware.exception]
-            [ring.middleware.session :refer [wrap-session]]
             [malli.util :as mu]
             [muuntaja.core :as muuntaja]
             [app.web.routes :refer [routes]]
-            [app.web.middlewares :refer [wrap-database-middleware
-                                         wrap-scookie]]))
+            [app.web.middlewares :refer [wrap-database-middleware]]))
 
 
 (defn default-error-handler
@@ -22,7 +20,8 @@
           :class (.getName (.getClass e))}})
 
 (defn- make-ring-handler
-  [{:keys [db cookie]}]
+  [{db :db/primary :as opts}]
+  (println opts)
   (ring/ring-handler
    (ring/router
     [(routes)
@@ -33,9 +32,7 @@
                         :strip-extra-keys true
                         :default-values true})
             :muuntaja muuntaja/instance
-            :middleware  [[wrap-session cookie]
-                          [wrap-scookie cookie]
-                          format-middleware
+            :middleware  [format-middleware
                           (reitit.ring.middleware.exception/create-exception-middleware {:reitit.ring.middleware.exception/default default-error-handler})
                           coercion/coerce-exceptions-middleware
                           coercion/coerce-request-middleware

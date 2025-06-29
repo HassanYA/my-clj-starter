@@ -1,4 +1,5 @@
 (ns app.web.routes)
 
 (defn routes []
-  [["/" {:handler (fn [req] {:body {:msg :reloaded}})}]])
+  [["/" {:handler (fn [req] {:body {:msg :hello
+                                    :conn (:conn req)}})}]])
