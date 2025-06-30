@@ -5,13 +5,20 @@
             [app.web.ring-handler :refer [ring-handler]]
             [app.config :as config]))
 
+;; side-effectful namespaces
+(require '[next.jdbc.date-time]
+         '[app.schema])
+
 (defmethod ig/init-key :db/primary [_ dbspec]
   (println "Creating DB Connection")
-  (assoc dbspec :ds (jdbc/get-datasource dbspec)))
+  (let [ds-raw (jdbc/get-datasource dbspec)]
+    (assoc dbspec
+           :ds-raw ds-raw
+           :ds (jdbc/with-options ds-raw config/jdbc-opts))))
 
 (defmethod ig/halt-key! :db/primary [_ db]
-  (println "Halting Connection")
-  (dissoc db :ds))
+  (println "Removing DB Connection")
+  (dissoc db :ds :ds-raw))
 
 (defmethod ig/init-key :web/handler [_ opts]
   (ring-handler opts))

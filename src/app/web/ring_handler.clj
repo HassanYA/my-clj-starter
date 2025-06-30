@@ -8,7 +8,8 @@
             [malli.util :as mu]
             [muuntaja.core :as muuntaja]
             [app.web.routes :refer [routes]]
-            [app.web.middlewares :refer [wrap-database-middleware]]))
+            [app.web.middlewares :refer [wrap-database-middleware]]
+            [app.utils.transformers :refer [json-transformer]]))
 
 
 (defn default-error-handler
@@ -19,18 +20,23 @@
    :body {:type "exception"
           :class (.getName (.getClass e))}})
 
+
 (defn- make-ring-handler
-  [{db :db/primary :as opts}]
-  (println opts)
+  [{db :db :as opts}]
   (ring/ring-handler
    (ring/router
     [(routes)
      ["/assets/*" (ring/create-resource-handler)]]
     {:data {:coercion (reitit.coercion.malli/create
-                       {:error-keys #{:coercion :in :schema :value :errors :humanized}
-                        :compile mu/closed-schema
-                        :strip-extra-keys true
-                        :default-values true})
+                       (-> reitit.coercion.malli/default-options
+                           (merge {:error-keys #{:coercion :in :schema :value :errors :humanized}
+                                   :compile mu/closed-schema
+                                   :strip-extra-keys true
+                                   :default-values true})
+                           (assoc-in [:transformers :body :formats "application/json"]
+                                     json-transformer)
+                           (assoc-in [:transformers :response :formats "application/json"]
+                                     json-transformer)))
             :muuntaja muuntaja/instance
             :middleware  [format-middleware
                           (reitit.ring.middleware.exception/create-exception-middleware {:reitit.ring.middleware.exception/default default-error-handler})
