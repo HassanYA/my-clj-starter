@@ -7,7 +7,7 @@
 
 ;; side-effectful namespaces
 (require '[next.jdbc.date-time]
-         '[app.schema])
+         '[app.schema-registry])
 
 (defmethod ig/init-key :db/primary [_ dbspec]
   (println "Creating DB Connection")
@@ -26,8 +26,8 @@
 (defmethod ig/halt-key! :web/handler [_ _] nil)
 
 (defmethod ig/init-key :web/server [_ opts]
-  (println "Starting Web Server at port %s"
-           (:port opts))
+  (println (format "Starting Web Server at port %s"
+                   (:port opts)))
   (assoc opts :process (run-server (:handler opts)
                                    (dissoc opts :handler))))
 

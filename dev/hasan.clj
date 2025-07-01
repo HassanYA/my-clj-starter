@@ -2,7 +2,10 @@
   (:require [integrant.repl :refer [clear go halt prep init reset reset-all]]
             [integrant.repl.state :as state]
             [ragtime.next-jdbc :as rg-jdbc]
-            [ragtime.repl :as rg-repl]))
+            [ragtime.repl :as rg-repl]
+            [next.jdbc.sql :as jsqls]
+            [tick.core :as t]
+            [app.domain :as domain]))
 
 (require '[app.core])
 
@@ -16,21 +19,6 @@
   #(-> (system) :db/primary :ds))
 
 
-;; (jsql/insert! (conn)
-;;               :sharks
-;;               {:scientific-name "Somniosus microcephalus"
-;;                :known-name "Greenland shark"
-;;                :strength 71
-;;                :code "greenland"
-;;                :created-at (t/instant)})
-
-;; (jdbc/execute! (jdbc/with-options (conn)
-;;                  {:builder-fn jrs/as-unqualified-kebab-maps
-;;                   :table-fn #(clojure.string/replace % #"-" "_")
-;;                   :column-fn #(clojure.string/replace % #"-" "_")})
-;;                (-> (hsql/from :sharks)
-;;                    (hsql/select :*)
-;;                    (sql/format)))
 
 
 (comment
@@ -48,3 +36,4 @@
                :migrations (rg-jdbc/load-resources "migrations")))
   (rg-repl/migrate (rg-conf))
   (rg-repl/rollback (rg-conf)))
+
