@@ -1,4 +1,4 @@
-(ns app.web.ring-handler
+(ns app.bases.web.ring-handler
   (:require [reitit.ring :as ring]
             [reitit.ring.coercion :as coercion]
             [reitit.coercion.malli]
@@ -7,8 +7,8 @@
             [reitit.ring.middleware.exception]
             [malli.util :as mu]
             [muuntaja.core :as muuntaja]
-            [app.web.routes :refer [routes]]
-            [app.web.middlewares :refer [wrap-database-middleware]]
+            [app.bases.web.routes :refer [routes]]
+            [app.bases.web.middlewares :refer [wrap-database-middleware]]
             [app.utils.transformers :refer [json-transformer]]))
 
 

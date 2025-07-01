@@ -1,13 +1,12 @@
-(ns app.domain
+(ns app.components.shark.interface.io
   (:require [next.jdbc :as jdbc]
             [next.jdbc.sql :as jsql]
             [honey.sql :as sql]
             [honey.sql.helpers :refer [from select]]
             [malli.core :as m]
-            [app.schema :as schema]
+            [app.components.shark.interface.schemas :as schema]
             [tick.core :as t]))
 
-;; sharks
 (def sharks-table :sharks)
 
 (defn get-sharks!
@@ -23,7 +22,7 @@
 
 (defn add-shark!
   [conn shark]
-  {:pre [(m/validate schema/shark-add shark)]}
+  {:pre [(m/validate schema/add shark)]}
   (let [shark (assoc shark :created-at (t/instant))]
     (jsql/insert! conn sharks-table shark)))
 

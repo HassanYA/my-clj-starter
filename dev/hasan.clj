@@ -2,10 +2,7 @@
   (:require [integrant.repl :refer [clear go halt prep init reset reset-all]]
             [integrant.repl.state :as state]
             [ragtime.next-jdbc :as rg-jdbc]
-            [ragtime.repl :as rg-repl]
-            [next.jdbc.sql :as jsqls]
-            [tick.core :as t]
-            [app.domain :as domain]))
+            [ragtime.repl :as rg-repl]))
 
 (require '[app.core])
 
@@ -17,8 +14,6 @@
 
 (def conn
   #(-> (system) :db/primary :ds))
-
-
 
 
 (comment

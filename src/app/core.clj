@@ -2,7 +2,7 @@
   (:require [integrant.core :as ig]
             [next.jdbc :as jdbc]
             [org.httpkit.server :refer [run-server]]
-            [app.web.ring-handler :refer [ring-handler]]
+            [app.bases.web.ring-handler :refer [ring-handler]]
             [app.config :as config]))
 
 ;; side-effectful namespaces

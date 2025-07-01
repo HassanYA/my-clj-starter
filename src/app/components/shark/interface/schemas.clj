@@ -1,9 +1,8 @@
-(ns app.schema
-  (:require [malli.core :as m]
-            [malli.util :as mu]
+(ns app.components.shark.interface.schemas
+  (:require [malli.util :as mu]
             [app.schema-registry]))
 
-(def shark
+(def base
   [:map
    [:scientific-name :string]
    [:known-name :string]
@@ -11,13 +10,11 @@
    [:strength :int]
    [:created-at :time/instant]])
 
-(def shark-add
-  (mu/dissoc shark :created-at))
+(def add
+  (mu/dissoc base :created-at))
 
-(def shark-patch
-  (-> shark
+(def patch
+  (-> base
       (mu/dissoc :created-at)
       (mu/dissoc :code)
       (mu/optional-keys)))
-
-
